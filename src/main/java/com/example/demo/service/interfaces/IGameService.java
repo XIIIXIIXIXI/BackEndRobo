@@ -22,4 +22,5 @@ public interface IGameService {
     void movePlayer(Board board, int x, int y, int playerId) throws DaoException;
 
     void switchCurrentPlayer(int boardId) throws ServiceException, DaoException;
+
 }
