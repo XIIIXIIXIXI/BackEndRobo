@@ -5,6 +5,7 @@ import com.example.demo.dal.interfaces.IPlayerDao;
 import com.example.demo.dal.interfaces.ISpaceDao;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.ServiceException;
+import com.example.demo.model.Admin.Game;
 import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
@@ -12,18 +13,18 @@ import com.example.demo.service.interfaces.IGameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 public class GameService implements IGameService {
     private final IBoardDao boardDao;
     private final ISpaceDao spaceDao;
     private final IPlayerDao playerDao;
+    private final GameAdminService gameAdminService;
 
-    public GameService(IBoardDao boardDao, ISpaceDao spaceDao, IPlayerDao playerDao) {
+    public GameService(IBoardDao boardDao, ISpaceDao spaceDao, IPlayerDao playerDao, GameAdminService gameAdminService) {
         this.boardDao = boardDao;
         this.spaceDao = spaceDao;
         this.playerDao = playerDao;
+        this.gameAdminService = gameAdminService;
     }
 
     @Override
@@ -137,5 +138,4 @@ public class GameService implements IGameService {
         board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
         boardDao.updateBoard(board, board.getGameId());
     }
-
 }
