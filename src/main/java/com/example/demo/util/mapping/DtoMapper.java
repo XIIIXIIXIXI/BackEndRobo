@@ -3,7 +3,10 @@ package com.example.demo.util.mapping;
 import com.example.demo.controller.GameController.BoardDto;
 import com.example.demo.controller.GameController.PlayerDto;
 import com.example.demo.controller.GameController.SpaceDto;
+import com.example.demo.dal.interfaces.IGameDao;
 import com.example.demo.exceptions.MappingException;
+import com.example.demo.gameadmin.GameDto;
+import com.example.demo.model.Admin.Game;
 import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
@@ -11,6 +14,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DtoMapper implements IDtoMapper {
+
+    private IGameDao gameDAO;
+
+    public DtoMapper(IGameDao gameDAO) {
+        this.gameDAO = gameDAO;
+    }
+
+
+
     public PlayerDto convertToDto(Player player) throws MappingException {
         if(player == null){
             throw new MappingException("Player was null");
@@ -29,6 +41,20 @@ public class DtoMapper implements IDtoMapper {
         return playerDto;
     }
 
+    public Game convertToEntity(GameDto gameDTO){
+        if (gameDTO.gameId == null){
+            Game game = new Game();
+            game.name = gameDTO.name;
+            return game;
+        } else{
+            Game game = gameDAO.getGame(gameDTO.gameId);
+            if (gameDTO.name != null){
+                game.name = gameDTO.name;
+            }
+            return game;
+        }
+
+    }
 
     public BoardDto convertToDto(Board board) throws MappingException {
         if(board == null){
