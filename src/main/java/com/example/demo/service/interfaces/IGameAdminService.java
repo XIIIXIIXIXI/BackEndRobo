@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface IGameAdminService {
 
-    int createGame() throws DaoException;
+    //int createGame() throws DaoException;
 
     public Collection<Game> getGames() throws ServiceException, DaoException;
 
