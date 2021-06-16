@@ -29,13 +29,14 @@ public class GameAdminController {
         Collection<Game> games = gameAdminService.getGames();
         return new ResponseEntity<>(games, HttpStatus.OK);
     }
-    /*@PostMapping("/game/new")
-    if (gameDTO.gameId != null){
-        return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+    //her bruger vi pathvariable som indikerer at URL'en er attributen vi vil arbejde med.
+    //ellers brug RequestBody hvis vi vil have det sendt med Postman.
+    @DeleteMapping("/game/{gameId}/delete")
+     public ResponseEntity<Boolean> deleteGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException{
+     boolean returning = gameAdminService.deleteGame(gameId);
+     return new ResponseEntity<>(returning, HttpStatus.OK);
     }
-    Game game = dtoMapper.convertToEntity(gameDTO);
-    gameAdminService.saveGame(game);
-    return new ResponseEntity<>(game.gameId, HttpStatus.OK);*/
+
     @PostMapping("/game/new")
     public ResponseEntity<Integer> createGame(@RequestBody GameDto gameDto) throws ServiceException, MappingException, DaoException{
         if (gameDto.gameId != null){
@@ -44,6 +45,6 @@ public class GameAdminController {
         Game game = dtoMapper.convertToEntity(gameDto);
         gameAdminService.saveGame(game);
         return new ResponseEntity<>(game.gameId, HttpStatus.OK);
-    }
 
+    }
 }

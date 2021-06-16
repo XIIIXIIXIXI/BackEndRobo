@@ -18,4 +18,6 @@ public interface IGameAdminService {
     public Collection<Game> getGames() throws ServiceException, DaoException;
 
     int saveGame(Game game) throws ServiceException,    DaoException;
+
+    boolean deleteGame(int gameId) throws ServiceException, DaoException;
 }

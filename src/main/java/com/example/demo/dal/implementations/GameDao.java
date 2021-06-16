@@ -28,6 +28,10 @@ public class GameDao implements IGameDao {
         }
         return -1;
     }
+    @Override
+    public boolean deleteGame(int gameID){
+        return games.remove(gameID) != null;
+    }
 
     @Override
     public Game getGame(int gameId) {
@@ -37,5 +41,6 @@ public class GameDao implements IGameDao {
     public Collection<Game> getGames(){
         return games.values();
     }
+
 
 }

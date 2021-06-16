@@ -11,4 +11,6 @@ public interface IGameDao {
     Game getGame(int gameId);
 
     Collection<Game> getGames();
+
+    boolean deleteGame(int gameID);
 }
