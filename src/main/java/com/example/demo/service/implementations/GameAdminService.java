@@ -56,6 +56,11 @@ public class GameAdminService implements IGameAdminService {
     public boolean deleteGame(int gameID) throws ServiceException, DaoException{
         return gameDAO.deleteGame(gameID);
     }
+    @Override
+public void addUserToGame(int gameID, int userID){
+        Game game = gameDAO.getGame(gameID);
+        game.addUser(userID);
+    }
 }
 
 

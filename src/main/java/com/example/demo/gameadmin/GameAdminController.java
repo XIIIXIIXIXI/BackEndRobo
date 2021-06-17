@@ -1,27 +1,35 @@
 package com.example.demo.gameadmin;
 
+import com.example.demo.dal.implementations.BoardDao;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.MappingException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Admin.Game;
+import com.example.demo.model.Admin.User;
+import com.example.demo.model.Player;
+import com.example.demo.service.implementations.GameService;
 import com.example.demo.service.interfaces.IGameAdminService;
+import com.example.demo.service.interfaces.IUserService;
 import com.example.demo.util.mapping.IDtoMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class GameAdminController {
     private final IGameAdminService gameAdminService;
     private final IDtoMapper dtoMapper;
+    private final IUserService userService;
+    private final GameService gameService;
 
-    public GameAdminController(IGameAdminService gameAdminService, IDtoMapper dtoMapper){
+    public GameAdminController(IGameAdminService gameAdminService, IDtoMapper dtoMapper, IUserService userService, GameService gameService){
         this.gameAdminService = gameAdminService;
         this.dtoMapper = dtoMapper;
+        this.userService = userService;
+        this.gameService = gameService;
     }
 
     @GetMapping("/game")
@@ -37,6 +45,26 @@ public class GameAdminController {
      return new ResponseEntity<>(returning, HttpStatus.OK);
     }
 
+    @PostMapping("/account/new")
+    public ResponseEntity<Integer> createUser() throws ServiceException, DaoException{
+    int userId = userService.createUser();
+    return new ResponseEntity<>(userId, HttpStatus.OK);
+    }
+   /* @PostMapping("/game/addUser/{gameID}")
+    public ResponseEntity<Boolean> addUser(@RequestBody int UserID, @PathVariable("gameID") int gameID){
+        User user =
+    }*/
+   @PostMapping("/game/{gameId}/join")
+   public ResponseEntity<Integer> addPlayer(@PathVariable("gameId") int gameId, @RequestBody User usert) throws ServiceException, MappingException, DaoException {
+       User user = userService.getUser(usert.getUserId());
+        gameAdminService.addUserToGame(gameId, usert.getUserId());
+
+        Player player = new Player(gameService.getBoard(gameId), "yellow", user.getName());
+        player.setPlayerId(user.getUserId());
+        gameService.addPlayer(gameService.getBoard(gameId).getGameId(), player);
+        return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
+
+   }
     @PostMapping("/game/new")
     public ResponseEntity<Integer> createGame(@RequestBody GameDto gameDto) throws ServiceException, MappingException, DaoException{
         if (gameDto.gameId != null){
@@ -45,6 +73,6 @@ public class GameAdminController {
         Game game = dtoMapper.convertToEntity(gameDto);
         gameAdminService.saveGame(game);
         return new ResponseEntity<>(game.gameId, HttpStatus.OK);
-
     }
+
 }

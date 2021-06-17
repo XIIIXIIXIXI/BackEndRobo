@@ -1,17 +1,10 @@
-package com.example.demo.model.Admin;
+package com.example.demo.gameadmin;
 
-public class User {
+public class UserDto {
     private String name;
     private Integer userId;
     private Integer gameId;
     private Boolean alreadyInGame;
-
-    public User(String name, Integer userId, int gameID){
-        this.name = name;
-        this.userId = userId;
-        this.gameId = gameID;
-        this.alreadyInGame = false;
-    }
     public void setName(String name){
         this.name = name;
     }
