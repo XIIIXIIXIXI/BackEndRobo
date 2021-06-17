@@ -59,7 +59,8 @@ public class GameAdminService implements IGameAdminService {
     @Override
 public void addUserToGame(int gameID, int userID){
         Game game = gameDAO.getGame(gameID);
-        game.addUser(userID);
+        /**TODO*/
+        //game.addUser(userID);
     }
 }
 

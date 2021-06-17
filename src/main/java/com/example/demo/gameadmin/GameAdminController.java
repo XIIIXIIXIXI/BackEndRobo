@@ -6,6 +6,7 @@ import com.example.demo.exceptions.MappingException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Admin.Game;
 import com.example.demo.model.Admin.User;
+import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.service.implementations.GameService;
 import com.example.demo.service.interfaces.IGameAdminService;
@@ -67,10 +68,18 @@ public class GameAdminController {
    }
     @PostMapping("/game/new")
     public ResponseEntity<Integer> createGame(@RequestBody GameDto gameDto) throws ServiceException, MappingException, DaoException{
-        if (gameDto.gameId != null){
+        /*if (gameDto.gameId != null){
             return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
-        }
+        }*/
+
         Game game = dtoMapper.convertToEntity(gameDto);
+        game.gameId = 4;
+        Board board = gameService.getBoard(1);
+        User user1 = new User("User1", 1, game.gameId);
+        User user2 = new User("User2", 2, game.gameId);
+        game.setBoard(board);
+        game.addUser(user1);
+        game.addUser(user2);
         gameAdminService.saveGame(game);
         return new ResponseEntity<>(game.gameId, HttpStatus.OK);
     }

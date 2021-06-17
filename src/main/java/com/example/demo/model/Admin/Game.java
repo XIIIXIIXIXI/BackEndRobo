@@ -9,9 +9,13 @@ public class Game {
     public String name;
     public Integer gameId;
     //public Boolean started;
-    public List<Integer> users = new ArrayList<>();
+    public List<User> users = new ArrayList<>();
 
     public Board board;
 
-    public boolean addUser(int userId){return users.add(userId);}
+    public boolean addUser(User user){return users.add(user);}
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 }
