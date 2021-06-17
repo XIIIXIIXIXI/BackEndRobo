@@ -54,10 +54,10 @@ public class GameAdminController {
     public ResponseEntity<Boolean> addUser(@RequestBody int UserID, @PathVariable("gameID") int gameID){
         User user =
     }*/
-   @PostMapping("/game/{gameId}/join")
-   public ResponseEntity<Integer> addPlayer(@PathVariable("gameId") int gameId, @RequestBody User usert) throws ServiceException, MappingException, DaoException {
-       User user = userService.getUser(usert.getUserId());
-        gameAdminService.addUserToGame(gameId, usert.getUserId());
+   @PostMapping("/game/{gameId}/{usert}")
+   public ResponseEntity<Integer> addPlayer(@PathVariable("gameId") int gameId, @PathVariable("usert") int usert) throws ServiceException, MappingException, DaoException {
+       User user = userService.getUser(usert);
+        gameAdminService.addUserToGame(gameId, usert);
 
         Player player = new Player(gameService.getBoard(gameId), "yellow", user.getName());
         player.setPlayerId(user.getUserId());
