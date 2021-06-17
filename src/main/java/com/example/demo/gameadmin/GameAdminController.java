@@ -6,6 +6,7 @@ import com.example.demo.exceptions.MappingException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Admin.Game;
 import com.example.demo.model.Admin.User;
+import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.service.implementations.GameService;
 import com.example.demo.service.interfaces.IGameAdminService;
@@ -72,7 +73,27 @@ public class GameAdminController {
         }
         Game game = dtoMapper.convertToEntity(gameDto);
         gameAdminService.saveGame(game);
+
         return new ResponseEntity<>(game.gameId, HttpStatus.OK);
+    }
+    //adds board to a game
+    @PostMapping("/game/{gameId}/newBoard")
+    public ResponseEntity<Integer> createBoard(@PathVariable("gameId") int gameId) throws ServiceException, DaoException{
+        Game game = gameAdminService.getGame(gameId);
+        gameService.deleteBoard((int)gameId);
+        Board board = new Board(8,8, "gamename");
+        board.setGameId(gameId);
+        gameService.saveBoard(board);
+        game.board = board;
+        return new ResponseEntity<>(game.gameId, HttpStatus.OK);
+
+    }
+    @PostMapping("/game/get/{id}")
+    public ResponseEntity<GameDto> getGame(@PathVariable("gameId") int gameId) throws ServiceException, MappingException, DaoException {
+        Game game = gameAdminService.getGame(gameId);
+        if(game == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(dtoMapper.convertToDto(game), HttpStatus.OK);
     }
 
 }

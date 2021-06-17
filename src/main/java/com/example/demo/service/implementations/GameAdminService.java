@@ -33,9 +33,8 @@ public class GameAdminService implements IGameAdminService {
         for (Board board : boardDao.getBoards()) {
             Game game = new Game();
             game.name = board.boardName;
-            game.id = board.getGameId();
+            game.gameId = board.getGameId();
             result.add(game);
-            game.started = board.getPlayersNumber() > 1;
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
                 User user = new User();
@@ -60,6 +59,10 @@ public class GameAdminService implements IGameAdminService {
 public void addUserToGame(int gameID, int userID){
         Game game = gameDAO.getGame(gameID);
         game.addUser(userID);
+    }
+    @Override
+    public Game getGame(int gameId){
+        return gameDAO.getGame(gameId);
     }
 }
 

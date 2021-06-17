@@ -43,9 +43,7 @@ public class GameService implements IGameService {
     @Override
     public int saveBoard(Board board) throws ServiceException, DaoException {
         int savedBoardId = boardDao.createBoard(board);
-        if (savedBoardId < 0) {
-            throw new ServiceException("BoardDao generated invalid boardId " + savedBoardId, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
         spaceDao.createSpaces(savedBoardId, board.getSpaces());
         return savedBoardId;
     }
@@ -137,5 +135,12 @@ public class GameService implements IGameService {
         int nextPlayerNumber = (currentPlayerNumber + 1) % amountOfPlayers;
         board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
         boardDao.updateBoard(board, board.getGameId());
+    }
+
+    @Override
+    public  void deleteBoard(int gameId) throws ServiceException, DaoException{
+
+        boardDao.deleteBoard(gameId);
+
     }
 }

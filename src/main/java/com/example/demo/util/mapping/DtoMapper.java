@@ -90,6 +90,12 @@ public class DtoMapper implements IDtoMapper {
         }
         return spaceDto;
     }
+    @Override
+    public GameDto convertToDto(Game game) throws MappingException{
+        GameDto gameDto = new GameDto();
+        gameDto.
+
+    }
 
     public Board convertToEntity(BoardDto boardDto) {
         Board board = new Board(boardDto.getWidth(), boardDto.getHeight(), boardDto.getBoardName());

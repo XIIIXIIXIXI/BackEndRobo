@@ -22,4 +22,6 @@ public interface IGameAdminService {
     boolean deleteGame(int gameId) throws ServiceException, DaoException;
 
     public void addUserToGame(int gameID, int userID);
+
+    public Game getGame(int gameId);
 }
