@@ -25,4 +25,5 @@ public interface IGameService {
 
     public  void deleteBoard(int gameId) throws ServiceException, DaoException;
 
+    public int createGame() throws ServiceException, DaoException;
 }

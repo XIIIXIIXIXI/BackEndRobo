@@ -93,12 +93,11 @@ public class DtoMapper implements IDtoMapper {
     @Override
     public GameDto convertToDto(Game game) throws MappingException{
         GameDto gameDto = new GameDto();
-        gameDto.
-
+        return gameDto;
     }
 
-    public Board convertToEntity(BoardDto boardDto) {
-        Board board = new Board(boardDto.getWidth(), boardDto.getHeight(), boardDto.getBoardName());
+    public Board convertToEntity(BoardDto boardDto, int gameId) {
+        Board board = new Board(gameId,boardDto.getWidth(), boardDto.getHeight(), boardDto.getBoardName());
         if (boardDto.getBoardId() != -1) {
             board.setGameId(boardDto.getBoardId());
         }
@@ -124,7 +123,7 @@ public class DtoMapper implements IDtoMapper {
 
     public Game convertToEntity(GameDto gameDTO){
         if (gameDTO.gameId == null){
-            Game game = new Game();
+            Game game = new Game(gameDTO.gameId,gameDTO.name);
             game.name = gameDTO.name;
             return game;
         } else{

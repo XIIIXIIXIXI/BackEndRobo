@@ -3,6 +3,7 @@ package com.example.demo.controller.GameController;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.MappingException;
 import com.example.demo.exceptions.ServiceException;
+import com.example.demo.model.Admin.Game;
 import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
@@ -63,6 +64,26 @@ public class GameController {
         int playerId = gameService.addPlayer(boardId, player);
         return new ResponseEntity<>(playerId, HttpStatus.CREATED);
     }
+    /**
+     * Creates a new game
+     * @return the identifier for the game
+     * @throws ServiceException
+     * @throws DaoException
+     */
+    /*@PostMapping("/game/new")
+    public ResponseEntity<Integer> createGame() throws ServiceException, DaoException {
+        /*int gameId = gameService.createGame();
+        Game game = gameService.getGame(gameId);
+        boardService.removeBoard(gameId);
+        Board board = new Board(gameId, 8, 8, "Board");
+        boardService.saveBoard(game, board);
+        return new ResponseEntity<>(gameId, HttpStatus.CREATED);
+        return
+    }*/
+
+
+
+
 
     /**
      * Endpoint for creating a new board
@@ -72,7 +93,7 @@ public class GameController {
      */
     @PostMapping("/board")
     public ResponseEntity<Integer> createBoard(@RequestBody BoardDto boardDTO) throws ServiceException, DaoException {
-        Board board = dtoMapper.convertToEntity(boardDTO);
+        Board board = dtoMapper.convertToEntity(boardDTO,1);
         int boardId = gameService.saveBoard(board);
         return new ResponseEntity<>(boardId, HttpStatus.CREATED);
     }

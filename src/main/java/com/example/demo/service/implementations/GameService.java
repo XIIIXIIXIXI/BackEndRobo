@@ -1,6 +1,7 @@
 package com.example.demo.service.implementations;
 
 import com.example.demo.dal.interfaces.IBoardDao;
+import com.example.demo.dal.interfaces.IGameDao;
 import com.example.demo.dal.interfaces.IPlayerDao;
 import com.example.demo.dal.interfaces.ISpaceDao;
 import com.example.demo.exceptions.DaoException;
@@ -18,12 +19,14 @@ public class GameService implements IGameService {
     private final IBoardDao boardDao;
     private final ISpaceDao spaceDao;
     private final IPlayerDao playerDao;
+    private final IGameDao gameDao;
     private final GameAdminService gameAdminService;
 
-    public GameService(IBoardDao boardDao, ISpaceDao spaceDao, IPlayerDao playerDao, GameAdminService gameAdminService) {
+    public GameService(IBoardDao boardDao, ISpaceDao spaceDao, IPlayerDao playerDao, IGameDao gameDao, GameAdminService gameAdminService) {
         this.boardDao = boardDao;
         this.spaceDao = spaceDao;
         this.playerDao = playerDao;
+        this.gameDao = gameDao;
         this.gameAdminService = gameAdminService;
     }
 
@@ -43,7 +46,6 @@ public class GameService implements IGameService {
     @Override
     public int saveBoard(Board board) throws ServiceException, DaoException {
         int savedBoardId = boardDao.createBoard(board);
-
         spaceDao.createSpaces(savedBoardId, board.getSpaces());
         return savedBoardId;
     }
@@ -94,6 +96,13 @@ public class GameService implements IGameService {
         board.addPlayer(player);
         boardDao.updateBoard(board, board.getGameId());
         return playerId;
+    }
+
+    @Override
+    public int createGame() throws ServiceException, DaoException {
+        Game game = new Game(0, "Default Game");
+        int id = gameDao.createGame(game);
+        return id;
     }
 
     @Override

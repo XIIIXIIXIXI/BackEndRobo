@@ -32,7 +32,7 @@ public class Space {
     public final int y;
     private Player player;
 
-    public Space(Board board, int x, int y) {
+    public Space(Board board,int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
