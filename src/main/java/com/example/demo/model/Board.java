@@ -205,14 +205,14 @@ public class Board {
         return getSpace(x, y);
     }
 
-    public String getStatusMessage() {
+    /*public String getStatusMessage() {
         // This is actually a view aspect, but for making the first task easy for
         // the students, this method gives a string representation of the current
         // status of the game
 
 
         return "Player = " + getCurrentPlayer().getName() + " Counter = " + getCounter();
-    }
+    }*/
 
 
     public int getCounter() {

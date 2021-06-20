@@ -2,7 +2,6 @@ package com.example.demo.model.Admin;
 
 import com.example.demo.model.Board;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class Game {
         this.board = board;
     }
 
-    public Game(int gameId, String gameName) {
+    public Game(Integer gameId, String gameName) {
         this.gameId = gameId;
         this.name = gameName;
         users = new LinkedList<>();

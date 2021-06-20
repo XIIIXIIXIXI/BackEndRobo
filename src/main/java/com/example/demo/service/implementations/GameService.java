@@ -100,7 +100,7 @@ public class GameService implements IGameService {
 
     @Override
     public int createGame() throws ServiceException, DaoException {
-        Game game = new Game(0, "Default Game");
+        Game game = new Game(null, "Default Game");
         int id = gameDao.createGame(game);
         return id;
     }
@@ -130,20 +130,32 @@ public class GameService implements IGameService {
         if (space != null && player != null) {
             player.setSpace(space);
             boardDao.updateBoard(board, board.getGameId());
+            System.out.println("rykket");
+        } else {
+            System.out.println("bugged" + player  + space);
         }
+
     }
 
     @Override
     public void switchCurrentPlayer(int boardId) throws ServiceException, DaoException {
         Board board = this.getBoard(boardId);
-        int amountOfPlayers = board.getPlayersNumber();
-        if (amountOfPlayers <= 0) {
-            throw new ServiceException("Trying to switch current player, but board has no players", HttpStatus.BAD_REQUEST);
+        if(board.getCurrentPlayer() !=null) {
+            int amountOfPlayers = board.getPlayersNumber();
+            if (amountOfPlayers <= 0) {
+                throw new ServiceException("Trying to switch current player, but board has no players", HttpStatus.BAD_REQUEST);
+            }
+
+            int currentPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer());
+            int nextPlayerNumber;
+            if (amountOfPlayers > 1) {
+                nextPlayerNumber = (currentPlayerNumber + 1) % amountOfPlayers;
+            } else {
+                nextPlayerNumber = 1;
+            }
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            boardDao.updateBoard(board, board.getGameId());
         }
-        int currentPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer());
-        int nextPlayerNumber = (currentPlayerNumber + 1) % amountOfPlayers;
-        board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-        boardDao.updateBoard(board, board.getGameId());
     }
 
     @Override

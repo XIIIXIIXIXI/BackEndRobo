@@ -33,7 +33,7 @@ public class Space {
     private Player player;
 
     public Space(Board board,int x, int y) {
-        this.board = board;
+        this.board = null;
         this.x = x;
         this.y = y;
         player = null;
@@ -46,7 +46,7 @@ public class Space {
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
-                (player == null || board == player.board)) {
+                (player == null /*|| board == player.board*/)) {
             this.player = player;
             if (oldPlayer != null) {
                 // this should actually not happen
